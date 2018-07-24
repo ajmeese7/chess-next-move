@@ -1,0 +1,43 @@
+html, body {
+  width: 350px;
+  background-color: #f8f8ff;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+#not-chess, #error-content, #popup-content {
+  margin-left: 5px;
+}
+
+.button {
+  margin: 3% auto;
+  padding: 4px;
+  text-align: center;
+  font-size: 1.5em;
+  cursor: pointer;
+  width: 48%;
+  display: inline-block;
+}
+
+/* IDEA: Find better colors for these (#08ff08)
+         https://www.colorhexa.com/00ee00 */
+.save {
+  background-color: #00EE00;
+}
+
+.save:hover {
+  background-color: #5cb85c;
+}
+
+.load {
+  background-color: #EE00EE;
+}
+
+.load:hover {
+  background-color: #b85cb8;
+}

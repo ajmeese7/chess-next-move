@@ -1,0 +1,46 @@
+{
+
+  "manifest_version": 2,
+  "name": "Chess Next Move",
+  "version": "1.0",
+
+  "description": "Allows users to save games from chessnextmove.com",
+
+  "applications": {
+    "gecko": {
+      "id": "{5c1ebc89-4e77-42cb-96cd-ed4905fd985b}",
+      "strict_min_version": "57.0a1"
+    }
+  },
+
+  "browser_action": {
+    "default_title": "Chess Next Move",
+    "browser_style": true,
+    "default_icon": {
+      "16": "icons/favicon.ico"
+    },
+    "default_popup": "popup.html"
+  },
+
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+
+  "icons": {
+    "48": "icons/favicon.ico"
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://www.chessnextmove.com/"],
+      "js": ["gamesaver.js"]
+    }
+  ]
+
+}
