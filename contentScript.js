@@ -3,36 +3,52 @@
   function save() {
     // TODO: Add option to name games
     var board = document.getElementsByClassName("board-b72b1")[0];
+    var boardData = Create2DArray(8);
+    var data;
+
     // Iterate over rows
     for (var i = 0; i < 8; i++) {
-      // Iterate over squares
+      // Iterate over columns (squares)
       for (var j = 0; j < 8; j++) {
         var square = board.children[i].children[j];
         var piece = square.children[0];
         if (typeof piece != 'undefined') { // If the square has a child
           if (piece.classList.contains("piece-417db")) { // IDEA: Make less specific?
-            console.log(square.dataset.square + ": " + piece.getAttribute("data-piece"));
+            data = piece.getAttribute("data-piece");
           } else {
             // Tries again in case the square has notation on it
             piece = square.children[1];
             if (typeof piece != 'undefined' && piece.classList.contains("piece-417db")) {
-              console.log(square.dataset.square + ": " + piece.getAttribute("data-piece"));
+              data = piece.getAttribute("data-piece");
             } else {
               piece = square.children[2];
               // In case the square has double notation (bottom left)
               if (typeof piece != 'undefined' && piece.classList.contains("piece-417db")) {
-                console.log(square.dataset.square + ": " + piece.getAttribute("data-piece"));
+                data = piece.getAttribute("data-piece");
               } else {
                 // If there is no piece on the square
-                console.log("NO PIECE exists on " + square.getAttribute("data-square"));
+                data = "";
               }
             }
           }
         } else {
           // If the square has no children
-          console.log("NO PIECE exists on " + square.getAttribute("data-square"));
+          data = "";
         }
+
+        // Populate boardData with actual information
+        boardData[i][j] = data;
       }
+    }
+
+    // Credits: https://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
+    function Create2DArray(rows) {
+      var arr = [];
+      for (var i = 0; i < rows; i++) {
+         arr[i] = [];
+      }
+
+      return arr;
     }
 
     var storageItem = browser.storage.sync.get('savedGames');
