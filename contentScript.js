@@ -51,25 +51,64 @@
       return arr;
     }
 
+    console.log(boardData);
+
+    // NOTE: For now, only saving one game at a time to simplify the testing process
     var storageItem = browser.storage.sync.get('savedGames');
     storageItem.then((res) => {
-      var games = res.savedGames;
-      // TODO: Push current game to array (add remove functionality!)
+      // IDEA: To remove, reorder then pop()? https://www.w3schools.com/js/js_array_methods.asp
+      //var games = res.savedGames;
+      //games.push(boardData);
 
-      /*browser.storage.sync.set({
-        savedGames: games
-      });*/
+      browser.storage.sync.set({
+        savedGames: boardData
+      });
     });
   }
 
   function load() {
     var board = document.getElementsByClassName("board-b72b1")[0];
-    // Iterate over rows
+    clearBoard(board);
+
+    // TODO: Add some check to see if there is data yet
+    var storageItem = browser.storage.sync.get('savedGames');
+    storageItem.then((res) => {
+      // Iterate over rows
+      for (var i = 0; i < 8; i++) {
+        // Iterate over columns (squares)
+        for (var j = 0; j < 8; j++) {
+          var piece = res.savedGames[i][j];
+          if (piece != "") {
+            var square = board.children[i].children[j];
+            var data = "<div class='piece-417db' alt='' data-piece='" + piece + "' ";
+            data += "style='width: 62px;height: 62px;background-image:url(img/chesspieces/wikipedia/" + piece + ".png);";
+            data += "background-size: cover;background-repeat: no-repeat;background-position: center center;display: inline-block;touch-action: none'></div>";
+            square.innerHTML += data;
+          } // else: no piece on the square
+        }
+      }
+    });
+  }
+
+  // Removes all pieces currently on the chessboard
+  function clearBoard(board) {
     for (var i = 0; i < 8; i++) {
-      // Iterate over squares
+      // Iterate over columns (squares)
       for (var j = 0; j < 8; j++) {
-        var square = board.children[i].children[j];
-        // TODO: Finish command!
+        var squareToClear = board.children[i].children[j];
+        if (typeof squareToClear.children[2] != 'undefined') {
+          // Edge case (2 notations with a piece)
+          squareToClear.children[2].remove();
+        } else if (typeof squareToClear.children[1] != 'undefined') {
+          if (squareToClear.children[1].classList.contains("piece-417db")) {
+            // One notation and a piece
+            squareToClear.children[1].remove();
+          } // else: two notations and no piece
+        } else if (typeof squareToClear.children[0] != 'undefined') { // only one child
+          if (squareToClear.children[0].classList.contains("piece-417db")) {
+            squareToClear.children[0].remove();
+          } // else: only child is notation
+        }
       }
     }
   }

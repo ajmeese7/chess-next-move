@@ -59,10 +59,13 @@ function listenForClicks() {
          .catch(error);
       } else if (e.target.classList.contains("save")) {
         // TODO: Is there anything to do on the popup side? YES!
+        // IDEA: Get current game data here and wait until it changes below?
 
         browser.tabs.query({active: true, currentWindow: true})
          .then(save)
          .catch(error);
+
+         // IDEA: Add data to popup here after it is saved to sync!
       }
     } catch(err) { /* Shove it up yer butt */ }
 
